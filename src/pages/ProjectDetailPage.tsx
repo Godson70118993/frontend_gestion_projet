@@ -38,7 +38,7 @@ const ProjectDetailPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const projectResponse = await fetch(`https://backend-gestion-projet-4.onrender.com/projects/${projectId}`, {
+      const projectResponse = await fetch(`https://backend-gestion-projet-5.onrender.com/projects/${projectId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,7 +55,7 @@ const ProjectDetailPage: React.FC = () => {
         setError(`Erreur lors du chargement du projet: ${errorData.detail || projectResponse.statusText}`);
       }
 
-      const tasksResponse = await fetch(`https://backend-gestion-projet-4.onrender.com/projects/${projectId}/tasks`, {
+      const tasksResponse = await fetch(`https://backend-gestion-projet-5.onrender.com/projects/${projectId}/tasks`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -100,7 +100,7 @@ const ProjectDetailPage: React.FC = () => {
   const handleDeleteTask = async () => {
     if (!taskToDeleteId || !token) return;
     try {
-      const response = await fetch(`https://backend-gestion-projet-4.onrender.com/tasks/${taskToDeleteId}`, {
+      const response = await fetch(`https://backend-gestion-projet-5.onrender.com/tasks/${taskToDeleteId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

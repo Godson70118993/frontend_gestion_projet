@@ -16,7 +16,7 @@ const RegisterForm: React.FC = () => {
     setMessage('Inscription en cours...');
 
     try {
-      const response = await fetch('https://backend-gestion-projet-4.onrender.com/register', {
+      const response = await fetch('https://backend-gestion-projet-5.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

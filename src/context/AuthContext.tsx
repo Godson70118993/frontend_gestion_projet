@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const fetchCurrentUser = async (accessToken: string) => {
     console.log('AuthContext: Tentative de récupération des infos utilisateur...');
     try {
-      const response = await fetch('https://backend-gestion-projet-4.onrender.com/me', {
+      const response = await fetch('https://backend-gestion-projet-5.onrender.com/me', {
         headers: {
           'Authorization': `Bearer ${accessToken}`
         }
