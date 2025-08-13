@@ -1,104 +1,101 @@
 // src/components/ProjectCard.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 interface ProjectCardProps {
   id: number;
   title: string;
   description: string;
   createdAt: string;
-  onEdit: (projectId: number) => void;
-  onDelete: (projectId: number) => void;
+  onEdit: (e: React.MouseEvent) => void;
+  onDelete: (id: number, e?: React.MouseEvent) => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ id, title, description, createdAt, onEdit, onDelete }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ 
+  id, 
+  title, 
+  description, 
+  createdAt, 
+  onEdit, 
+  onDelete 
+}) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onEdit(e);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDelete(id, e);
+  };
+
   return (
-    <div className="
-      relative bg-white rounded-xl shadow-lg p-4 sm:p-6 
-      flex flex-col justify-between 
-      h-48 sm:h-56 md:h-60 lg:h-64
-      transition duration-300 transform hover:scale-105 hover:shadow-xl
-      border border-gray-100
-    ">
-      <Link to={`/projects/${id}`} className="absolute inset-0 z-0"></Link>
-      
-      <div className="flex-grow overflow-hidden">
-        <h3 className="
-          text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 
-          mb-2 mt-2 sm:mt-4 line-clamp-2
-        ">
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 h-full flex flex-col">
+      {/* En-tête avec titre */}
+      <div className="mb-4">
+        <h3 className="text-xl font-bold text-gray-800 line-clamp-2">
           {title}
         </h3>
-        <p className="
-          text-gray-600 mb-3 sm:mb-4 
-          text-xs sm:text-sm lg:text-base 
-          line-clamp-3 sm:line-clamp-4 leading-relaxed
-        ">
-          {description}
+      </div>
+
+      {/* Description */}
+      <div className="flex-1 mb-4">
+        <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+          {description || "Aucune description disponible"}
         </p>
       </div>
 
-      <div className="text-xs sm:text-sm text-gray-400 mt-auto mb-12 sm:mb-14">
-        Créé le: {new Date(createdAt).toLocaleDateString('fr-FR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit'
-        })}
+      {/* Footer avec date et actions */}
+      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center text-xs text-gray-500">
+          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          {formatDate(createdAt)}
+        </div>
+        
+        {/* Actions en bas à droite */}
+        <div className="flex space-x-1">
+          <button
+            onClick={handleEdit}
+            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all duration-200"
+            title="Modifier le projet"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </button>
+          
+          <button
+            onClick={handleDelete}
+            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all duration-200"
+            title="Supprimer le projet"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Delete and edit icons in the bottom-right corner - Responsive */}
-      <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 flex space-x-2 sm:space-x-3 z-10">
-        <button
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onEdit(id); }}
-          className="
-            p-2 sm:p-2.5 rounded-full bg-gray-100 text-gray-400 hover:text-violet-600 
-            transition-all duration-300 transform hover:scale-125 hover:rotate-12 
-            focus:outline-none focus:ring-2 focus:ring-violet-500
-            min-w-[36px] min-h-[36px] sm:min-w-[40px] sm:min-h-[40px]
-            flex items-center justify-center
-            hover:bg-violet-50
-          "
-          aria-label="Modifier le projet"
-        >
-          {/* New edit icon */}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="lucide lucide-pen-square sm:w-5 sm:h-5"
-          >
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-            <path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L11.5 16.5l-4 1 1-4Z"></path>
+      {/* Indicateur de clic */}
+      <div className="mt-4 pt-2 border-t border-gray-50">
+        <div className="flex items-center text-xs text-gray-400 justify-center">
+          <span>Cliquer pour ouvrir</span>
+          <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-        </button>
-        <button
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(id); }}
-          className="
-            p-2 sm:p-2.5 rounded-full bg-gray-100 text-gray-400 hover:text-red-600 
-            transition-all duration-300 transform hover:scale-125 hover:rotate-6 
-            focus:outline-none focus:ring-2 focus:ring-red-500
-            min-w-[36px] min-h-[36px] sm:min-w-[40px] sm:min-h-[40px]
-            flex items-center justify-center
-            hover:bg-red-50
-          "
-          aria-label="Supprimer le projet"
-        >
-          {/* Delete icon (trash can) */}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="h-4 w-4 sm:h-5 sm:w-5" 
-            viewBox="0 0 20 20" 
-            fill="currentColor"
-          >
-            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-          </svg>
-        </button>
+        </div>
       </div>
     </div>
   );
