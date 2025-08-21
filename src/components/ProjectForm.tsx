@@ -53,8 +53,8 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onClose, onSuccess, projectTo
 
     // Determine the API URL and HTTP method based on the mode (creation or modification)
     const apiUrl = projectToEdit 
-      ? `https://backend-gestion-projet-5.onrender.com/projects/${projectToEdit.id}` 
-      : 'https://backend-gestion-projet-5.onrender.com/projects';
+      ? `https://backend-gestion-projet-6.onrender.com/projects/${projectToEdit.id}` 
+      : 'https://backend-gestion-projet-6.onrender.com/projects';
     const method = projectToEdit ? 'PUT' : 'POST';
 
     try {
