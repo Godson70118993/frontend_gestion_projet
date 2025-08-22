@@ -25,7 +25,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ onClose, onSucces
     }
 
     try {
-      const response = await fetch('https://backend-gestion-projet-6.onrender.com/projects/', {
+      const response = await fetch('https://backend-gestion-projet-14.onrender.com/projects/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

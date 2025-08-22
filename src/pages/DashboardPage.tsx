@@ -28,7 +28,7 @@ const DashboardPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('https://backend-gestion-projet-6.onrender.com/projects', {
+      const response = await fetch('https://backend-gestion-projet-14.onrender.com/projects', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -63,7 +63,7 @@ const DashboardPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`https://backend-gestion-projet-6.onrender.com/projects/${projectToDeleteId}`, {
+      const response = await fetch(`https://backend-gestion-projet-14.onrender.com/projects/${projectToDeleteId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

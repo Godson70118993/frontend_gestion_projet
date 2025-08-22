@@ -45,7 +45,7 @@ const ProjectFormModal: React.FC<ProjectFormModalProps> = ({ onClose, onSuccess,
     }
     
     const method = isEditing ? 'PUT' : 'POST';
-    const url = isEditing ? `https://backend-gestion-projet-6.onrender.com/projects/${projectToEdit?.id}` : 'https://backend-gestion-projet-6.onrender.com/projects/';
+    const url = isEditing ? `https://backend-gestion-projet-14.onrender.com/projects/${projectToEdit?.id}` : 'https://backend-gestion-projet-14.onrender.com/projects/';
     
     try {
       const response = await fetch(url, {

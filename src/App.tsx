@@ -5,9 +5,9 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AuthPage from './components/AuthPage';
 import DashboardPage from './pages/DashboardPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
-import ProjectDetailPage from './pages/ProjectDetailPage';
 
 // Composant pour la page d'accueil (avec redirection si connecté)
 const HomePage: React.FC = () => {
@@ -17,15 +17,19 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     console.log('HomePage useEffect: isAuthenticated:', isAuthenticated, 'loading:', loading);
     if (!loading && isAuthenticated) {
-      console.log('HomePage: Utilisateur authentifié et chargement terminé, redirection vers /');
-      navigate('/', { replace: true });
+      console.log('HomePage: Utilisateur authentifié, redirection vers /dashboard');
+      navigate('/dashboard', { replace: true });
     }
   }, [isAuthenticated, loading, navigate]);
 
-  // Affiche le composant Hero uniquement si l'utilisateur n'est pas authentifié ou si l'authentification est en cours de chargement.
+  // Affiche le composant Hero uniquement si l'utilisateur n'est pas authentifié
+  if (loading) {
+    return <div className="text-center p-8 text-gray-700">Chargement...</div>;
+  }
+
   return (
     <>
-      {(!isAuthenticated || loading) && <Hero />}
+      {!isAuthenticated && <Hero />}
     </>
   );
 };
@@ -49,6 +53,21 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return <>{children}</>;
 };
 
+// Composant pour rediriger les utilisateurs authentifiés depuis /auth
+const AuthRoute: React.FC = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div className="text-center p-8 text-gray-700">Chargement...</div>;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <AuthPage />;
+};
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -57,9 +76,13 @@ const App: React.FC = () => {
           <Navbar />
           <div className="pt-16">
             <Routes>
+              {/* Page d'accueil */}
               <Route path="/" element={<HomePage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              {/* Route protégée pour le tableau de bord et la page de détails du projet */}
+              
+              {/* Page d'authentification avec redirection si déjà connecté */}
+              <Route path="/auth" element={<AuthRoute />} />
+              
+              {/* Routes protégées */}
               <Route
                 path="/dashboard"
                 element={
@@ -68,6 +91,7 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
+              
               <Route 
                 path="/projects/:projectId"
                 element={
@@ -76,6 +100,9 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
+              
+              {/* Route par défaut pour les URLs non trouvées */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
         </div>

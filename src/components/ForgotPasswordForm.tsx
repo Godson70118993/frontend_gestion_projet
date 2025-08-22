@@ -22,7 +22,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onBack }) => {
     };
 
     try {
-      const response = await fetch('https://backend-gestion-projet-6.onrender.com/forgot-password', {
+      const response = await fetch('https://backend-gestion-projet-14.onrender.com/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

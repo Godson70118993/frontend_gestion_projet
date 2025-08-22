@@ -69,7 +69,7 @@ const ResetPasswordForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch('https://backend-gestion-projet-6.onrender.com/reset-password', {
+      const response = await fetch('https://backend-gestion-projet-14.onrender.com/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
